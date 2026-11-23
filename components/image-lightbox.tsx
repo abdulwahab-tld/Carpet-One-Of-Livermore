@@ -52,8 +52,13 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
+    const frame = requestAnimationFrame(refresh);
     window.addEventListener("load", refresh);
-    return () => window.removeEventListener("load", refresh);
+    document.fonts?.ready.then(refresh);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("load", refresh);
+    };
   }, []);
 
   const value = useMemo(() => ({ open }), [open]);
@@ -171,7 +176,7 @@ function LightboxStage({ session, onExited }: { session: Session; onExited: () =
       { autoAlpha: 0, x: 32 * direction.current },
       { autoAlpha: 1, x: 0, duration: 0.45, ease: "power3.out" },
     );
-  }, { dependencies: [index], scope: frameRef });
+  }, { dependencies: [index], scope: frameRef, revertOnUpdate: true });
 
   return (
     <div

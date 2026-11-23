@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, type ReactNode } from "react";
-import { gsap, useGSAP } from "@/components/gsap-setup";
+import { canHoverFine, gsap, prefersReducedMotion, quickScale, useGSAP } from "@/components/gsap-setup";
 import { useLightbox, type LightboxImage } from "@/components/image-lightbox";
 
 type ClickableImageProps = {
@@ -40,16 +40,16 @@ export function ClickableImage({
   const { open } = useLightbox();
   const slides = images ?? [{ src, alt, caption }];
 
-  useGSAP(() => {
+  useGSAP((_, contextSafe) => {
+    const track = contextSafe ?? ((callback: () => void) => callback);
     const root = rootRef.current;
     const img = root?.querySelector("img");
     if (!root || !img) return;
     const cue = root.querySelector("[data-view-cue]");
-    const motion = gsap.matchMedia();
+    const cleanups: Array<() => void> = [];
 
-    motion.add("(prefers-reduced-motion: no-preference)", () => {
-      if (!parallax) return;
-      gsap.set(img, { scale: 1.12 });
+    if (parallax && !prefersReducedMotion()) {
+      gsap.set(img, { scaleX: 1.12, scaleY: 1.12 });
       gsap.fromTo(img, { yPercent: -6 }, {
         yPercent: 6,
         ease: "none",
@@ -60,29 +60,29 @@ export function ClickableImage({
           scrub: true,
         },
       });
-    });
+    }
 
-    motion.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)", () => {
-      const base = parallax ? 1.12 : 1;
-      const scale = gsap.quickTo(img, "scale", { duration: 0.8, ease: "power2.out" });
+    if (canHoverFine()) {
+      const base = parallax && !prefersReducedMotion() ? 1.12 : 1;
+      const scale = quickScale(img, { duration: 0.8, ease: "power2.out" });
       const x = gsap.quickTo(img, "x", { duration: 0.7, ease: "power2.out" });
       const y = gsap.quickTo(img, "y", { duration: 0.7, ease: "power2.out" });
       if (cue) gsap.set(cue, { autoAlpha: 0, y: 8 });
 
-      const enter = () => {
+      const enter = track(() => {
         scale(base + 0.06);
         if (cue) gsap.to(cue, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out" });
-      };
-      const leave = () => {
+      });
+      const leave = track(() => {
         scale(base);
-        if (!parallax) {
+        if (!(parallax && !prefersReducedMotion())) {
           x(0);
           y(0);
         }
         if (cue) gsap.to(cue, { autoAlpha: 0, y: 8, duration: 0.25, ease: "power2.in" });
-      };
+      });
       const move = (event: PointerEvent) => {
-        if (parallax) return;
+        if (parallax && !prefersReducedMotion()) return;
         const rect = root.getBoundingClientRect();
         const dx = (event.clientX - rect.left) / rect.width - 0.5;
         const dy = (event.clientY - rect.top) / rect.height - 0.5;
@@ -93,15 +93,15 @@ export function ClickableImage({
       root.addEventListener("mouseenter", enter);
       root.addEventListener("mouseleave", leave);
       root.addEventListener("pointermove", move);
-      return () => {
+      cleanups.push(() => {
         root.removeEventListener("mouseenter", enter);
         root.removeEventListener("mouseleave", leave);
         root.removeEventListener("pointermove", move);
-      };
-    });
+      });
+    }
 
-    return () => motion.revert();
-  }, { scope: rootRef, dependencies: [parallax, src] });
+    return () => cleanups.forEach((cleanup) => cleanup());
+  }, { scope: rootRef, dependencies: [parallax, src], revertOnUpdate: true });
 
   return (
     <button

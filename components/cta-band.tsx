@@ -3,39 +3,47 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/button-link";
-import { gsap, useGSAP } from "@/components/gsap-setup";
+import { gsap, prefersReducedMotion, useGSAP } from "@/components/gsap-setup";
 import { business } from "@/lib/site";
 
 export function CtaBand() {
   const rootRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const motion = gsap.matchMedia();
-    motion.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo("[data-cta-media]", { yPercent: -6 }, {
-        yPercent: 6,
-        ease: "none",
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
+    if (!prefersReducedMotion()) {
+      gsap.fromTo(
+        "[data-cta-media]",
+        { yPercent: -6 },
+        {
+          yPercent: 6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: rootRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
         },
-      });
-      gsap.from("[data-cta-copy] > *", {
-        autoAlpha: 0,
-        y: 24,
+      );
+    }
+
+    gsap.fromTo(
+      "[data-cta-copy] > *",
+      { y: 28 },
+      {
+        y: 0,
         duration: 0.8,
         stagger: 0.12,
         ease: "power3.out",
+        clearProps: "transform",
         scrollTrigger: {
           trigger: rootRef.current,
-          start: "top 75%",
+          start: "top 80%",
           once: true,
+          immediateRender: false,
         },
-      });
-    });
-    return () => motion.revert();
+      },
+    );
   }, { scope: rootRef });
 
   return (

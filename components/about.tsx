@@ -5,8 +5,8 @@ import { Reveal } from "@/components/reveal";
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-24 bg-cream px-5 py-24 md:px-8 md:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-12 lg:gap-16">
+    <section id="about" className="scroll-mt-24 bg-cream px-5 pt-24 pb-12 md:px-8 md:pt-32 md:pb-16">
+      <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal className="relative lg:col-span-6">
           <ClickableImage
             src="/images/about.jpg"

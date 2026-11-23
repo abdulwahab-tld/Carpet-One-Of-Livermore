@@ -11,22 +11,23 @@ export function Gallery() {
   const rootRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const motion = gsap.matchMedia();
-    motion.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from("[data-gallery-item]", {
-        autoAlpha: 0,
-        y: 32,
+    gsap.fromTo(
+      "[data-gallery-item]",
+      { y: 36 },
+      {
+        y: 0,
         duration: 0.8,
         stagger: 0.08,
         ease: "power3.out",
+        clearProps: "transform",
         scrollTrigger: {
           trigger: "[data-gallery-grid]",
-          start: "top 82%",
+          start: "top 90%",
           once: true,
+          immediateRender: false,
         },
-      });
-    });
-    return () => motion.revert();
+      },
+    );
   }, { scope: rootRef });
 
   return (

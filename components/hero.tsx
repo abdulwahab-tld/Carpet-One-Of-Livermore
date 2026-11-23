@@ -3,31 +3,40 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/button-link";
-import { gsap, useGSAP } from "@/components/gsap-setup";
+import { gsap, prefersReducedMotion, useGSAP } from "@/components/gsap-setup";
 
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const motion = gsap.matchMedia();
-    motion.add("(prefers-reduced-motion: no-preference)", () => {
-      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-      timeline
-        .from("[data-hero-media]", { scale: 1.08, duration: 1.7 })
-        .from("[data-hero-copy] > *", { autoAlpha: 0, y: 28, duration: 0.8, stagger: 0.12 }, 0.15);
+    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+    timeline
+      .fromTo("[data-hero-media]", { scale: 1.08 }, { scale: 1, duration: 1.7 })
+      .fromTo(
+        "[data-hero-copy] > *",
+        { autoAlpha: 0, y: 28 },
+        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.12 },
+        0.15,
+      );
 
-      gsap.to("[data-hero-media]", {
+    // Continuous scrub can cause motion sickness — skip only this when reduced.
+    if (prefersReducedMotion()) return;
+
+    gsap.fromTo(
+      "[data-hero-media]",
+      { yPercent: 0 },
+      {
         yPercent: 10,
         ease: "none",
+        immediateRender: false,
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
           end: "bottom top",
           scrub: true,
         },
-      });
-    });
-    return () => motion.revert();
+      },
+    );
   }, { scope: rootRef });
 
   return (

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { gsap, useGSAP } from "@/components/gsap-setup";
+import { canHoverFine, gsap, useGSAP } from "@/components/gsap-setup";
 import { useHoverLift } from "@/components/use-hover-lift";
 import { business, flooringLinks, navLinks } from "@/lib/site";
 
@@ -62,27 +62,25 @@ export function Header() {
     };
   }, [servicesOpen]);
 
-  useGSAP(() => {
-    const motion = gsap.matchMedia();
-    motion.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)", () => {
-      const links = gsap.utils.toArray<HTMLElement>("[data-nav-link]");
-      const cleanups: Array<() => void> = [];
-      links.forEach((link) => {
-        const line = link.querySelector("[data-nav-line]");
-        if (!line) return;
-        gsap.set(line, { scaleX: 0, transformOrigin: "left center" });
-        const enter = () => gsap.to(line, { scaleX: 1, duration: 0.35, ease: "power2.out" });
-        const leave = () => gsap.to(line, { scaleX: 0, duration: 0.28, ease: "power2.in" });
-        link.addEventListener("mouseenter", enter);
-        link.addEventListener("mouseleave", leave);
-        cleanups.push(() => {
-          link.removeEventListener("mouseenter", enter);
-          link.removeEventListener("mouseleave", leave);
-        });
+  useGSAP((_, contextSafe) => {
+    const track = contextSafe ?? ((callback: () => void) => callback);
+    if (!canHoverFine()) return;
+    const links = gsap.utils.toArray<HTMLElement>("[data-nav-link]");
+    const cleanups: Array<() => void> = [];
+    links.forEach((link) => {
+      const line = link.querySelector("[data-nav-line]");
+      if (!line) return;
+      gsap.set(line, { scaleX: 0, transformOrigin: "left center" });
+      const enter = track(() => gsap.to(line, { scaleX: 1, duration: 0.35, ease: "power2.out" }));
+      const leave = track(() => gsap.to(line, { scaleX: 0, duration: 0.28, ease: "power2.in" }));
+      link.addEventListener("mouseenter", enter);
+      link.addEventListener("mouseleave", leave);
+      cleanups.push(() => {
+        link.removeEventListener("mouseenter", enter);
+        link.removeEventListener("mouseleave", leave);
       });
-      return () => cleanups.forEach((cleanup) => cleanup());
     });
-    return () => motion.revert();
+    return () => cleanups.forEach((cleanup) => cleanup());
   }, { scope: headerRef });
 
   useGSAP(() => {
@@ -95,14 +93,11 @@ export function Header() {
         return;
       }
       gsap.fromTo(menu, { height: 0, autoAlpha: 0 }, { height: "auto", autoAlpha: 1, duration: 0.4, ease: "power3.out" });
-      gsap.from(menu.querySelectorAll("a"), {
-        autoAlpha: 0,
-        y: 14,
-        duration: 0.4,
-        stagger: 0.05,
-        delay: 0.08,
-        ease: "power2.out",
-      });
+      gsap.fromTo(
+        menu.querySelectorAll("a"),
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, delay: 0.08, ease: "power2.out", clearProps: "transform,opacity" },
+      );
       return;
     }
     if (reduce) {
@@ -114,7 +109,10 @@ export function Header() {
       autoAlpha: 0,
       duration: 0.28,
       ease: "power2.in",
-      onComplete: () => setMountedMenu(false),
+      onComplete: () => {
+        gsap.set(menu, { clearProps: "height,opacity,visibility" });
+        setMountedMenu(false);
+      },
     });
   }, { scope: headerRef, dependencies: [open, mountedMenu] });
 
@@ -127,7 +125,7 @@ export function Header() {
       return;
     }
     gsap.fromTo(panel, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.28, ease: "power2.out" });
-  }, { scope: headerRef, dependencies: [servicesOpen] });
+  }, { scope: headerRef, dependencies: [servicesOpen], revertOnUpdate: true });
 
   return (
     <header

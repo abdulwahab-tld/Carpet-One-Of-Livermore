@@ -66,7 +66,7 @@ function FaqItem({
     if (!panel || !rendered) return;
     if (skipIntro.current) {
       skipIntro.current = false;
-      gsap.set(panel, { height: "auto", autoAlpha: 1 });
+      gsap.set(panel, { height: "auto", autoAlpha: 1, clearProps: "overflow" });
       return;
     }
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -75,7 +75,11 @@ function FaqItem({
         gsap.set(panel, { height: "auto", autoAlpha: 1 });
         return;
       }
-      gsap.fromTo(panel, { height: 0, autoAlpha: 0 }, { height: "auto", autoAlpha: 1, duration: 0.35, ease: "power2.out" });
+      gsap.fromTo(
+        panel,
+        { height: 0, autoAlpha: 0 },
+        { height: "auto", autoAlpha: 1, duration: 0.35, ease: "power2.out" },
+      );
       return;
     }
     if (reduce) {
@@ -87,7 +91,10 @@ function FaqItem({
       autoAlpha: 0,
       duration: 0.28,
       ease: "power2.in",
-      onComplete: () => setRendered(false),
+      onComplete: () => {
+        gsap.set(panel, { clearProps: "height,opacity,visibility" });
+        setRendered(false);
+      },
     });
   }, { dependencies: [open, rendered] });
 

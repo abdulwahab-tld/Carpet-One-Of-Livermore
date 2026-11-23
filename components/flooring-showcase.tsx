@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { Eyebrow } from "@/components/eyebrow";
-import { gsap, useGSAP } from "@/components/gsap-setup";
+import { canHoverFine, gsap, quickScale, useGSAP } from "@/components/gsap-setup";
 import { useLightbox, type LightboxImage } from "@/components/image-lightbox";
 import { Reveal } from "@/components/reveal";
 
@@ -37,7 +37,7 @@ const slides: LightboxImage[] = services.map((service) => ({
 
 export function FlooringShowcase() {
   return (
-    <section id="flooring" className="scroll-mt-24 bg-plaster px-5 py-24 md:px-8 md:py-32">
+    <section id="flooring" className="scroll-mt-24 bg-plaster px-5 pt-12 pb-24 md:px-8 md:pt-16 md:pb-32">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <Eyebrow>Flooring</Eyebrow>
@@ -68,35 +68,32 @@ function FlooringCard({
   const cardRef = useRef<HTMLElement>(null);
   const { open } = useLightbox();
 
-  useGSAP(() => {
+  useGSAP((_, contextSafe) => {
+    const track = contextSafe ?? ((callback: () => void) => callback);
     const card = cardRef.current;
     const image = card?.querySelector("img");
-    if (!card || !image) return;
+    if (!card || !image || !canHoverFine()) return;
     const shade = card.querySelector("[data-card-shade]");
-    const motion = gsap.matchMedia();
-    motion.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)", () => {
-      const scale = gsap.quickTo(image, "scale", { duration: 0.8, ease: "power2.out" });
-      const y = gsap.quickTo(card, "y", { duration: 0.45, ease: "power2.out" });
-      const enter = () => {
-        scale(1.06);
-        y(-6);
-        gsap.to(card, { boxShadow: "0 22px 50px rgba(28, 25, 22, 0.18)", duration: 0.45, ease: "power2.out" });
-        if (shade) gsap.to(shade, { opacity: 0.72, duration: 0.45, ease: "power2.out" });
-      };
-      const leave = () => {
-        scale(1);
-        y(0);
-        gsap.to(card, { boxShadow: "0 0 0 rgba(28, 25, 22, 0)", duration: 0.4, ease: "power2.out" });
-        if (shade) gsap.to(shade, { opacity: 1, duration: 0.4, ease: "power2.out" });
-      };
-      card.addEventListener("mouseenter", enter);
-      card.addEventListener("mouseleave", leave);
-      return () => {
-        card.removeEventListener("mouseenter", enter);
-        card.removeEventListener("mouseleave", leave);
-      };
+    const scale = quickScale(image, { duration: 0.8, ease: "power2.out" });
+    const y = gsap.quickTo(card, "y", { duration: 0.45, ease: "power2.out" });
+    const enter = track(() => {
+      scale(1.06);
+      y(-6);
+      gsap.to(card, { boxShadow: "0 22px 50px rgba(28, 25, 22, 0.18)", duration: 0.45, ease: "power2.out" });
+      if (shade) gsap.to(shade, { opacity: 0.72, duration: 0.45, ease: "power2.out" });
     });
-    return () => motion.revert();
+    const leave = track(() => {
+      scale(1);
+      y(0);
+      gsap.to(card, { boxShadow: "0 0 0 rgba(28, 25, 22, 0)", duration: 0.4, ease: "power2.out" });
+      if (shade) gsap.to(shade, { opacity: 1, duration: 0.4, ease: "power2.out" });
+    });
+    card.addEventListener("mouseenter", enter);
+    card.addEventListener("mouseleave", leave);
+    return () => {
+      card.removeEventListener("mouseenter", enter);
+      card.removeEventListener("mouseleave", leave);
+    };
   }, { scope: cardRef });
 
   return (
