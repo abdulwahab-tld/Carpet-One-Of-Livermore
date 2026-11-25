@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { ChatWidget } from "@/components/chat-widget";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { LightboxProvider } from "@/components/image-lightbox";
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Header />
           <main id="main">{children}</main>
           <Footer />
+          <ChatWidget />
         </LightboxProvider>
       </body>
     </html>
