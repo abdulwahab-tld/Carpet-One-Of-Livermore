@@ -63,7 +63,7 @@ export function CtaBand() {
           Ready to Give Your Space a Beautiful New Look?
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-plaster/85">
-          Explore Bioplanks and Carpet Tile flooring options at Carpet One Of Livermore. Find attractive flooring styles to complement your space.
+          Explore Bioplanks and Carpet Tile flooring options at Living Floors. Find attractive flooring styles to complement your space.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <ButtonLink href="/#flooring" variant="light">

@@ -1,5 +1,5 @@
 export const business = {
-  name: "Carpet One Of Livermore",
+  name: "Living Floors",
   phoneDisplay: "(925) 238-3127",
   phoneTel: "+19252383127",
   email: "sales@carpetonel.com",

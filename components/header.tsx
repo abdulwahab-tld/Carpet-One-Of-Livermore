@@ -137,10 +137,7 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
         <Link href="/#top" className="min-w-0">
           <span className="block font-display text-2xl leading-none tracking-tight text-ink md:text-3xl">
-            Carpet One
-          </span>
-          <span className="mt-1 block text-[0.68rem] tracking-[0.22em] text-stone uppercase">
-            Of Livermore
+            {business.name}
           </span>
         </Link>
 

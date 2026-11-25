@@ -6,10 +6,7 @@ export function Footer() {
     <footer className="bg-ink text-plaster">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:px-8 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-4xl leading-none">Carpet One</p>
-          <p className="mt-2 text-xs tracking-[0.22em] text-brass uppercase">
-            Of Livermore
-          </p>
+          <p className="font-display text-4xl leading-none">{business.name}</p>
           <p className="mt-5 max-w-xs text-sm leading-6 text-plaster/75">
             {business.shortDescription}
           </p>
@@ -85,7 +82,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <p className="mx-auto max-w-7xl px-5 py-5 text-xs text-plaster/55 md:px-8">
-          © 2026 Carpet One Of Livermore. Inspiration photography is representative and is not presented as verified company installations.
+          © 2026 {business.name}. Inspiration photography is representative and is not presented as verified company installations.
         </p>
       </div>
     </footer>

@@ -3,7 +3,7 @@ import { FlooringDetail } from "@/components/flooring-detail";
 import { getSiteUrl } from "@/lib/site";
 
 const description =
-  "Explore stylish Bioplanks flooring in Livermore. Compare wood-inspired designs and finishes for residential and commercial interiors at Carpet One Of Livermore.";
+  "Explore stylish Bioplanks flooring in Livermore. Compare wood-inspired designs and finishes for residential and commercial interiors at Living Floors.";
 
 const siteUrl = getSiteUrl();
 
@@ -32,7 +32,7 @@ export default function BioplanksPage() {
       lede="Discover Bioplanks flooring solutions that bring style and character to your interiors. Explore attractive designs and finishes to find flooring that complements your home or commercial space."
       paragraphs={[
         "Bioplanks flooring is a wood-inspired option for people who want a modern floor that works with contemporary rooms. Designs and finishes vary, so the useful next step is to compare the looks that fit your space.",
-        "Carpet One Of Livermore can walk through Bioplanks options for a residential room or a commercial interior. Tell us how the space is used and the style you want the floor to complement.",
+        "Living Floors can walk through Bioplanks options for a residential room or a commercial interior. Tell us how the space is used and the style you want the floor to complement.",
       ]}
       points={[
         "Modern and attractive flooring appearance.",

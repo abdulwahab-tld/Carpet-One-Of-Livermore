@@ -38,7 +38,7 @@ export function Gallery() {
             <Eyebrow>Gallery</Eyebrow>
             <h2 className="mt-4 font-display text-5xl leading-none md:text-6xl">Flooring inspiration</h2>
             <p className="mt-5 text-base leading-7 text-ink/75">
-              A mix of wood-look interiors, carpet tile patterns, living rooms, and commercial spaces. These are representative photographs, not verified Carpet One Of Livermore installations.
+              A mix of wood-look interiors, carpet tile patterns, living rooms, and commercial spaces. These are representative photographs, not verified Living Floors installations.
             </p>
           </div>
         </Reveal>

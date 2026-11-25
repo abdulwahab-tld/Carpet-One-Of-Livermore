@@ -71,9 +71,9 @@ export const whyPoints = [
 
 export const faqs = [
   {
-    question: "What types of flooring does Carpet One Of Livermore offer?",
+    question: "What types of flooring does Living Floors offer?",
     answer:
-      "Carpet One Of Livermore offers two flooring categories: Bioplanks flooring and carpet tile flooring. Both can be explored for residential and commercial spaces in Livermore.",
+      "Living Floors offers two flooring categories: Bioplanks flooring and carpet tile flooring. Both can be explored for residential and commercial spaces in Livermore.",
   },
   {
     question: "What is Bioplanks flooring?",
@@ -113,7 +113,7 @@ export const faqs = [
   {
     question: "Can I explore different flooring styles before making a decision?",
     answer:
-      "Yes. You can browse the inspiration gallery on this site, then contact Carpet One Of Livermore to explore Bioplanks and carpet tile styles before you decide.",
+      "Yes. You can browse the inspiration gallery on this site, then contact Living Floors to explore Bioplanks and carpet tile styles before you decide.",
   },
   {
     question: "How can I request a flooring estimate?",

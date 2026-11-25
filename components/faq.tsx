@@ -18,7 +18,7 @@ export function Faq() {
             Questions, answered simply.
           </h2>
           <p className="mt-5 text-sm leading-6 text-ink/70">
-            Answers describe the flooring categories offered by Carpet One Of Livermore. For availability, call or send an estimate request.
+            Answers describe the flooring categories offered by Living Floors. For availability, call or send an estimate request.
           </p>
         </Reveal>
         <div className="lg:col-span-7 lg:col-start-6">

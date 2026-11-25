@@ -21,7 +21,7 @@ export function ContactSection() {
         </Reveal>
 
         <Reveal delay={0.12} className="flex h-full flex-col bg-ink p-8 text-plaster md:p-10">
-          <h3 className="font-display text-4xl">Carpet One Of Livermore</h3>
+          <h3 className="font-display text-4xl">{business.name}</h3>
           <dl className="mt-8 space-y-5 text-sm">
             <div>
               <dt className="text-xs tracking-[0.18em] text-brass uppercase">Phone</dt>
@@ -68,7 +68,7 @@ export function ContactSection() {
           </a>
           <div className="mt-8 min-h-72 flex-1 overflow-hidden">
             <iframe
-              title="Map showing Carpet One Of Livermore at 1917 First Street, Livermore, California"
+              title={`Map showing ${business.name} at 1917 First Street, Livermore, California`}
               src={mapEmbedSrc}
               className="h-full min-h-72 w-full border-0"
               loading="lazy"

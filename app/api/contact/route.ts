@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
   const resend = new Resend(apiKey);
   const to = process.env.CONTACT_TO_EMAIL || business.email;
-  const from = process.env.CONTACT_FROM_EMAIL || "Carpet One Of Livermore <onboarding@resend.dev>";
+  const from = process.env.CONTACT_FROM_EMAIL || `${business.name} <onboarding@resend.dev>`;
 
   const { error } = await resend.emails.send({
     from,

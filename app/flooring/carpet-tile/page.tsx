@@ -3,7 +3,7 @@ import { FlooringDetail } from "@/components/flooring-detail";
 import { getSiteUrl } from "@/lib/site";
 
 const description =
-  "Explore carpet tile flooring in Livermore for homes and commercial spaces. Compare patterns, textures, and arrangements at Carpet One Of Livermore.";
+  "Explore carpet tile flooring in Livermore for homes and commercial spaces. Compare patterns, textures, and arrangements at Living Floors.";
 
 const siteUrl = getSiteUrl();
 
@@ -32,7 +32,7 @@ export default function CarpetTilePage() {
       lede="Enhance your interiors with attractive carpet tile flooring. Explore different patterns, textures, and designs to create comfortable and visually appealing spaces for residential and commercial environments."
       paragraphs={[
         "Carpet tile is modular carpet installed as individual tiles. That makes it possible to arrange patterns and textures in more than one direction, which is useful in both homes and commercial rooms.",
-        "Carpet One Of Livermore can help you look through carpet tile styles for the kind of interior you have in mind. Availability changes, so contact the showroom to see current options.",
+        "Living Floors can help you look through carpet tile styles for the kind of interior you have in mind. Availability changes, so contact the showroom to see current options.",
       ]}
       points={[
         "Available in different patterns and designs.",

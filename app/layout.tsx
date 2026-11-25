@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Outfit } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { LightboxProvider } from "@/components/image-lightbox";
-import { getSiteUrl, localBusinessJsonLd } from "@/lib/site";
+import { business, getSiteUrl, localBusinessJsonLd } from "@/lib/site";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -22,21 +22,21 @@ const sans = Outfit({
 
 const siteUrl = getSiteUrl();
 const description =
-  "Discover Bioplanks and carpet tile flooring in Livermore with Carpet One Of Livermore. Explore modern flooring solutions for residential and commercial spaces.";
+  "Discover Bioplanks and carpet tile flooring in Livermore with Living Floors. Explore modern flooring solutions for residential and commercial spaces.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Carpet One Of Livermore | Bioplanks & Carpet Tile Flooring",
-    template: "%s | Carpet One Of Livermore",
+    default: "Living Floors | Bioplanks & Carpet Tile Flooring",
+    template: "%s | Living Floors",
   },
   description,
-  applicationName: "Carpet One Of Livermore",
+  applicationName: business.name,
   openGraph: {
-    title: "Carpet One Of Livermore | Bioplanks & Carpet Tile Flooring",
+    title: "Living Floors | Bioplanks & Carpet Tile Flooring",
     description,
     type: "website",
     locale: "en_US",
-    siteName: "Carpet One Of Livermore",
+    siteName: business.name,
     images: [
       {
         url: "/images/hero.jpg",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Carpet One Of Livermore | Bioplanks & Carpet Tile Flooring",
+    title: "Living Floors | Bioplanks & Carpet Tile Flooring",
     description,
     images: ["/images/hero.jpg"],
   },

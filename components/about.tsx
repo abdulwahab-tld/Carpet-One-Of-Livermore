@@ -34,7 +34,7 @@ export function About() {
                 The floor is the largest surface in a room. Choosing it carefully changes how a space looks, how comfortable it feels, and how well it works every day.
               </p>
               <p>
-                Carpet One Of Livermore focuses on two flooring categories: Bioplanks flooring and carpet tile flooring. Both offer attractive designs and a variety of looks for different interior styles.
+                Living Floors focuses on two flooring categories: Bioplanks flooring and carpet tile flooring. Both offer attractive designs and a variety of looks for different interior styles.
               </p>
               <p>
                 Whether you are shaping a home or a commercial interior, you can compare finishes, patterns, and arrangements before you decide.
